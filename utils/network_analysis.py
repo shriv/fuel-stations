@@ -1,8 +1,12 @@
 # Import packages
+import os
 import pandas as pd
 import osmnx as ox
 import networkx as nx
 import matplotlib.pyplot as plt
+import seaborn as sns
+import pandana
+from pandana.loaders import osm
 
 
 #######################
@@ -76,6 +80,33 @@ def prettify_pairwise_distance_df(pairwise_df_raw, stations_df):
                    .query('distance > 0.0'))
 
     return pairwise_df
+
+
+def interbrand_pairwise_distance_df(interbrand_pairwise_final):
+    """
+    Creates closest stations df from interbrand pairwise distances
+    
+    Args:
+     interbrand_pairwise_final:
+    
+    Returns:
+     closest_stations
+    """
+    
+    closest_stations = (interbrand_pairwise_final
+                        .groupby('from')['distance']
+                        .agg('min')
+                        .reset_index(name='distance'))
+
+    closest_stations = (pd.merge(interbrand_pairwise_final, 
+                                 closest_stations)[['from', 'to', 'distance']]
+                        .sort_values('distance'))
+
+    closest_stations['from_brand'] = (closest_stations['from']
+                                      .apply(lambda x: str(x)[0:2].replace(" ", "")))
+    closest_stations['to_brand'] = (closest_stations['to']
+                                    .apply(lambda x: str(x)[0:2].replace(" ", "")))
+    return closest_stations
 
 
 def get_shortest_path(origin_point, destination_point, G):
@@ -173,10 +204,122 @@ def plot_shortest_paths(pairwise_df, station_brand='Z'):
      Histogram of shortest distances from any fuel station in data.
     """
     
-    closest_stations = pairwise_df.groupby('from')['distance'].agg('min')
-    closest_stations.sort_values()
+    closest_stations = (pairwise_df
+                        .groupby('from')['distance']
+                        .agg('min')
+                        .sort_values())
+    title_string = 'Distance between {} \
+    stations \n Mean = {} m. Median  = {} m'.format(station_brand,
+                                                    closest_stations.mean(), 
+                                                    closest_stations.median())
     # Plot the distances
     plt.hist(closest_stations);
-    plt.title('Distance between {} stations \n Mean = {} m. Median  = {} m'.format(station_brand,
-                                                                                   closest_stations.mean(), 
-                                                                                   closest_stations.median()));
+    plt.title(title_string);
+
+
+def plot_interstation_distance_multibrand(pairwise_df_multibrand):
+    closest_stations = (pairwise_df_multibrand
+                        .groupby(['from', 'brand'])['distance']
+                        .agg('min')
+                        .reset_index()
+                       # .drop(columns='index')
+                        .sort_values('distance'))
+    
+    def vertical_average_lines(x, **kwargs):
+        plt.axvline(x.mean(), color='r',
+                    label= 'Mean = '+str(int(x.mean())))
+        plt.axvline(x.median(),
+                    color='k',
+                    ls='--',
+                    label='Median = '+str(int(x.median())))
+
+        # txkw = dict(size=16, color = 'r', rotation=0)
+        # tx = "mean: {:.2f},\nmedian: {:.2f}".format(x.mean(),x.median())
+        # plt.text(x.mean() + 20, 5, tx, **txkw)
+        plt.legend(loc='upper right')
+
+    
+    grid = sns.FacetGrid(closest_stations, col='brand', size=5)
+    grid.map(plt.hist, 'distance')
+    grid.map(vertical_average_lines, 'distance')
+    grid.add_legend()
+    
+    return
+
+
+###########################
+## PANDANA ACCESSIBILITY ##
+###########################
+
+def get_pandana_network(bbox, tags):
+    """
+    """
+    
+    # Define some parameters
+    pandana_bbox = [bbox[1], bbox[0], bbox[3], bbox[2]]
+    bbox_string = '_'.join([str(x) for x in pandana_bbox])
+    num_categories = len(tags) + 1
+    net_filename = 'data/network_{}.h5'.format(bbox_string)
+
+    if os.path.isfile(net_filename):
+        # if a street network file already exists, just load the dataset from that
+        network = pandana.network.Network.from_hdf5(net_filename)
+    else:
+        # otherwise, query the OSM API for the street network within the specified bounding box
+        network = osm.pdna_network_from_bbox(pandana_bbox[0],
+                                             pandana_bbox[1],
+                                             pandana_bbox[2],
+                                             pandana_bbox[3], 
+                                             network_type='drive')
+
+
+        # identify nodes that are connected to fewer than some threshold
+        # of other nodes within a given distance
+        lcn = network.low_connectivity_nodes(impedance=1000, count=10, imp_name='distance')
+        network.save_hdf5(net_filename, rm_nodes=lcn)
+
+
+    return network, pandana_bbox
+
+
+def get_accessibility(network, pois_df, distance=5000, num_pois=10):
+    """
+    """
+    
+    network.precompute(distance + 1)
+    network.set_pois(category='all',
+                     x_col=pois_df['lon'],
+                     y_col=pois_df['lat'],
+                     maxdist=distance,
+                     maxitems=num_pois)
+    accessibility = network.nearest_pois(distance=distance, category='all', num_pois=num_pois)
+    return accessibility
+
+
+def plot_accessibility(network, accessibility,
+                       pandana_bbox,
+                       amenity_type = 'Z Fuel Station',
+                       place_name='Wellington',
+                       fig_kwargs={}, plot_kwargs={},
+                       cbar_kwargs={}, bmap_kwargs={}):
+    """
+    """
+
+    
+    title = 'Driving distance (m) to nearest {} around {}'.format(amenity_type,
+                                                                  place_name)
+ 
+    # network aggregation plots are the same as regular scatter plots,
+    # but without a reversed colormap
+    agg_plot_kwargs = plot_kwargs.copy()
+    agg_plot_kwargs['cmap'] = 'viridis'
+    
+    # Plot
+    bmap, fig, ax = network.plot(accessibility, 
+                                 bbox=pandana_bbox, 
+                                 plot_kwargs=plot_kwargs, 
+                                 fig_kwargs=fig_kwargs, 
+                                 bmap_kwargs=bmap_kwargs, 
+                                 cbar_kwargs=cbar_kwargs)
+    ax.set_title(title,  fontsize=15)
+    return
