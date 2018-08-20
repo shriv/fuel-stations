@@ -251,13 +251,12 @@ def plot_interstation_distance_multibrand(pairwise_df_multibrand):
 ## PANDANA ACCESSIBILITY ##
 ###########################
 
-def get_pandana_network(bbox, tags, impedance=5000):
+def get_pandana_network(osm_bbox, tags, impedance=5000):
     """
     """
     
     # Define some parameters
-    pandana_bbox = [bbox[1], bbox[0], bbox[3], bbox[2]]
-    bbox_string = '_'.join([str(x) for x in pandana_bbox])
+    bbox_string = '_'.join([str(x) for x in osm_bbox])
     num_categories = len(tags) + 1
     net_filename = 'data/network_{}.h5'.format(bbox_string)
 
@@ -266,10 +265,10 @@ def get_pandana_network(bbox, tags, impedance=5000):
         network = pandana.network.Network.from_hdf5(net_filename)
     else:
         # otherwise, query the OSM API for the street network within the specified bounding box
-        network = osm.pdna_network_from_bbox(pandana_bbox[0],
-                                             pandana_bbox[1],
-                                             pandana_bbox[2],
-                                             pandana_bbox[3], 
+        network = osm.pdna_network_from_bbox(osm_bbox[0],
+                                             osm_bbox[1],
+                                             osm_bbox[2],
+                                             osm_bbox[3], 
                                              network_type='drive')
 
 
@@ -279,7 +278,7 @@ def get_pandana_network(bbox, tags, impedance=5000):
         network.save_hdf5(net_filename, rm_nodes=lcn)
 
 
-    return network, pandana_bbox
+    return network
 
 
 def get_accessibility(network, pois_df, distance=5000, num_pois=10):
@@ -297,7 +296,7 @@ def get_accessibility(network, pois_df, distance=5000, num_pois=10):
 
 
 def plot_accessibility(network, accessibility,
-                       pandana_bbox,
+                       osm_bbox,
                        amenity_type = 'Z fuel station',
                        place_name='Wellington',
                        fig_kwargs={}, plot_kwargs={},
@@ -317,7 +316,7 @@ def plot_accessibility(network, accessibility,
     
     # Plot
     bmap, fig, ax = network.plot(accessibility, 
-                                 bbox=pandana_bbox, 
+                                 bbox=osm_bbox, 
                                  plot_kwargs=plot_kwargs, 
                                  fig_kwargs=fig_kwargs, 
                                  bmap_kwargs=bmap_kwargs, 
