@@ -11809,14 +11809,14 @@ div#notebook {
 </tr>
 <tr>
 <td>Station connectivity</td>
-<td>Z stations within a particular driving radius</td>
+<td># of Z stations within a particular driving radius</td>
 </tr>
 </tbody>
 </table>
 <p>Quantitative analyses of coverage include:</p>
 <ul>
 <li>Nearest neighbours of Z stations<ul>
-<li>The subset with competitor stations as their closest neighbours can be used to identify zones / regions with some level of user cannibalisation / poaching by competitor.</li>
+<li>The subset with competitor stations as their closest neighbours can be used to identify zones / regions with some degree of poaching by the competitor.</li>
 </ul>
 </li>
 <li>Using the number of neighbours within a radius to identify the "important" / "centrally" located stations.</li>
@@ -11847,7 +11847,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Introduction-to-Spatial-data">Introduction to Spatial data<a class="anchor-link" href="#Introduction-to-Spatial-data">&#182;</a></h1><p>Spatial data includes geographical information for physical entities in our world. Since we're focusing on man-made entities like fuel stations, the simplest geographical information we require is geolocation. This information can be enriched with richer geography derived from the surrounding environment.</p>
+<h1 id="Introduction-to-Spatial-data">Introduction to Spatial data<a class="anchor-link" href="#Introduction-to-Spatial-data">&#182;</a></h1><p>Spatial data includes geographical information for physical entities in our world. Since we're focusing on man-made entities like fuel stations, the simplest geographical information we require is geolocation. This information can be enriched with attributes that describe local geography - derived from the surrounding environment.</p>
 <h2 id="What-spatial-data-do-we-need?">What spatial data do we need?<a class="anchor-link" href="#What-spatial-data-do-we-need?">&#182;</a></h2><p>We need the following data to calculate the coverage metrics and do the quantitative analyses. The tools are described in more detail in the following section.</p>
 <table>
 <thead><tr>
@@ -11869,8 +11869,8 @@ div#notebook {
 </tr>
 </tbody>
 </table>
-<p>Open Street Maps (OSM) is the underlying data source. <a href="https://en.wikipedia.org/wiki/OpenStreetMap">OSM</a> is an open, collaborative map of the world. In a later section, I will show how I've edited the available information on Wellington fuel stations. This editing feature will continue to be an important aspect - especially if we want to update the available services at the various fuel stations.</p>
-<p>The advantage of using OSM, other than enriching the available information for others, is that we can have the same framework providing data for Z as well as competitor brands. If we get the Z project, OSM will continue to play a key role because we won't be able to get information on competitors from Z.</p>
+<p>Open Street Maps (OSM) is the underlying data source. <a href="https://en.wikipedia.org/wiki/OpenStreetMap">OSM</a> is an open, collaborative map of the world. In a later section, I will show how I've leveraged the collaborative feature to update / add information on Wellington fuel stations. This editing feature will continue to be an important aspect of any future version of this project, e.g. the available services at the various fuel stations.</p>
+<p>The main advantage of using OSM, other than enriching the available information for others, is that the same framework provides data for <em>all</em> the brands. Comparative analyses become much easier since they don't require data munging from different sources.</p>
 <h2 id="Tools-for-spatial-data-analysis">Tools for spatial data analysis<a class="anchor-link" href="#Tools-for-spatial-data-analysis">&#182;</a></h2><p>This report is generated with Python 2.7. The packages highlighted below can be easily installed using a Python package manager like conda or pip.</p>
 <table>
 <thead><tr>
