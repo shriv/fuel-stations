@@ -298,7 +298,7 @@ def get_accessibility(network, pois_df, distance=5000, num_pois=10):
 
 def plot_accessibility(network, accessibility,
                        pandana_bbox,
-                       amenity_type = 'Z Fuel Station',
+                       amenity_type = 'Z fuel station',
                        place_name='Wellington',
                        fig_kwargs={}, plot_kwargs={},
                        cbar_kwargs={}, bmap_kwargs={}):
@@ -311,6 +311,7 @@ def plot_accessibility(network, accessibility,
  
     # network aggregation plots are the same as regular scatter plots,
     # but without a reversed colormap
+    # Make the cmap management more generic?
     agg_plot_kwargs = plot_kwargs.copy()
     agg_plot_kwargs['cmap'] = plot_kwargs['cmap'].strip('_r')
     
