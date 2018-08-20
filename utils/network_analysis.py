@@ -251,7 +251,7 @@ def plot_interstation_distance_multibrand(pairwise_df_multibrand):
 ## PANDANA ACCESSIBILITY ##
 ###########################
 
-def get_pandana_network(bbox, tags):
+def get_pandana_network(bbox, tags, impedance=5000):
     """
     """
     
@@ -275,7 +275,7 @@ def get_pandana_network(bbox, tags):
 
         # identify nodes that are connected to fewer than some threshold
         # of other nodes within a given distance
-        lcn = network.low_connectivity_nodes(impedance=1000, count=10, imp_name='distance')
+        lcn = network.low_connectivity_nodes(impedance, count=10, imp_name='distance')
         network.save_hdf5(net_filename, rm_nodes=lcn)
 
 
@@ -312,7 +312,7 @@ def plot_accessibility(network, accessibility,
     # network aggregation plots are the same as regular scatter plots,
     # but without a reversed colormap
     agg_plot_kwargs = plot_kwargs.copy()
-    agg_plot_kwargs['cmap'] = 'viridis'
+    agg_plot_kwargs['cmap'] = plot_kwargs['cmap'].strip('_r')
     
     # Plot
     bmap, fig, ax = network.plot(accessibility, 
