@@ -1,0 +1,56 @@
+/*
+Placeholder for custom user CSS
+
+mainly to be overridden in profile/static/custom/custom.css
+
+This will always be an empty file in IPython
+*/
+
+/*for the error , connecting & renaming window*/
+@import url(http://fonts.googleapis.com/css?family=Lato|Source+Code+Pro|Montserrat:400,700);
+#notebook-container {
+-webkit-box-shadow: none;
+box-shadow: none;
+width: 60%;
+}
+h1, h2, h3, h4, h5, h6 {
+font-family: 'Montesserat', sans-serif;
+line-height: 20px;
+}
+h1 { font-size: 5.5em; color: #3e8bd2; }
+h2 { font-size: 4.5rem; color: #3e8bd2; }
+h3 { font-size: 4rem; color: #3e8bd2; }
+h4 { font-size: 3.5rem; color: #3e8bd2; }
+h5 { font-size: 3rem; color: #3e8bd2; }
+h6 { font-size: 2.5rem; color: #3e8bd2; }
+p, li {
+font-family: 'Lato', sans-serif;
+font-size: 13pt;
+line-height: 25px;
+/* font-weight: 400; */
+color: #404040;
+/* color: #5e5e5e; */
+/* color: #8d8d8d; */
+}
+.CodeMirror pre {
+font-family: Roboto Mono, monospace;
+font-size: 11pt;
+line-height: 130% !important;
+}
+div.input_area {
+border: none;
+background: whitesmoke;
+}
+
+
+/* [dir="rtl"] .modal-footer { */
+/* 	text-align : left !important; */
+/* } */
+
+/* [dir="rtl"] .close { */
+/* 	float : left; */
+/* } */
+
+/* [dir="rtl"] .fa-step-forward::before { */
+/*     content: "\f048"; */
+/* } */
