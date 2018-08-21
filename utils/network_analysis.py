@@ -137,10 +137,10 @@ def station_degree(g):
     Returns unweighted degree per fuel station in graph object.
     
     Args:
-     g:
+     g: Graph object
     
     Returns:
-     degree_df:
+     degree_df: degree per node as a dataframe
     """
 
     degree_df = (pd.DataFrame(list(g.degree()))
@@ -153,17 +153,19 @@ def station_degree(g):
 ## PLOTTING FUNCTIONS ##
 ########################
 
-def visualise_station_network(pairwise_df, neighbour_radius = 10000.0, station_brand='Z'):
+def visualise_station_network(pairwise_df,
+                              neighbour_radius = 10000.0,
+                              station_brand='Z'):
     """
     Visualise 'network' of Z stations that are at most 10km away from each other. 
 
     Args:
-     pairwise_df:
-     neighbour_radius: 
-     station_brand:
+     pairwise_df: pairwise distance matrix 
+     neighbour_radius: Filter to only include neighbours within radius 
+     station_brand: Z, BP etc. 
 
     Returns:
-     Networkx graph object
+     g: Networkx graph object
     """
          
     # Get the data
@@ -215,35 +217,58 @@ def plot_shortest_paths(pairwise_df, station_brand='Z'):
     # Plot the distances
     plt.hist(closest_stations);
     plt.title(title_string);
+    return
 
 
+def vertical_average_lines(x, **kwargs):
+    """
+    Utility function to plot median and mean lines
+    Also adds a legend with the values of the mean and median
+    To be used within a map function for seaborn FacetGrid
+
+    Args:
+     x: Variable plotted on histogram. Called as string in map
+     **kwargs: Additional parameters set in FacetGrid.
+    
+    Returns:
+     Plots and labels mean and median averages.
+    """
+    
+    plt.axvline(x.mean(), color='r',
+                label= 'Mean = '+str(int(x.mean())))
+    plt.axvline(x.median(),
+                color='k',
+                ls='--',
+                label='Median = '+str(int(x.median())))
+    plt.legend(loc='upper right')
+    return
+
+    
 def plot_interstation_distance_multibrand(pairwise_df_multibrand):
+    """
+    Calculates and plots closest distances to fuel station
+    Closest distance to same-brand fuel station
+     
+    Args:
+     pairwise_df_multibrand: concatenated df of brand-brand distances
+    
+    Returns:
+     FacetGrid plot 
+    """
+
+    # Get Closest stations by brand
     closest_stations = (pairwise_df_multibrand
                         .groupby(['from', 'brand'])['distance']
                         .agg('min')
                         .reset_index()
                        # .drop(columns='index')
                         .sort_values('distance'))
-    
-    def vertical_average_lines(x, **kwargs):
-        plt.axvline(x.mean(), color='r',
-                    label= 'Mean = '+str(int(x.mean())))
-        plt.axvline(x.median(),
-                    color='k',
-                    ls='--',
-                    label='Median = '+str(int(x.median())))
 
-        # txkw = dict(size=16, color = 'r', rotation=0)
-        # tx = "mean: {:.2f},\nmedian: {:.2f}".format(x.mean(),x.median())
-        # plt.text(x.mean() + 20, 5, tx, **txkw)
-        plt.legend(loc='upper right')
-
-    
+    # Plot distance to closest station
     grid = sns.FacetGrid(closest_stations, col='brand', size=5)
     grid.map(plt.hist, 'distance')
     grid.map(vertical_average_lines, 'distance')
     grid.add_legend()
-    
     return
 
 
@@ -251,13 +276,23 @@ def plot_interstation_distance_multibrand(pairwise_df_multibrand):
 ## PANDANA ACCESSIBILITY ##
 ###########################
 
-def get_pandana_network(osm_bbox, tags, impedance=5000):
+def get_pandana_network(osm_bbox, impedance=5000):
     """
+    Utility function to get pandana nodes within analysis bounding box
+     - Function also filters out poorly connected nodes. Still uncertain 
+    if this is required. And if it is, can we find a better set of values?
+    - Pandana network is saved to disk to avoid re-download
+    
+    Args:
+     osm_bbox: OSM-spec'd bounding box as list  
+     impedance: used for filtering poorly connected nodes
+
+    Returns:
+     network: pandana network
     """
     
     # Define some parameters
     bbox_string = '_'.join([str(x) for x in osm_bbox])
-    num_categories = len(tags) + 1
     net_filename = 'data/network_{}.h5'.format(bbox_string)
 
     if os.path.isfile(net_filename):
@@ -283,6 +318,16 @@ def get_pandana_network(osm_bbox, tags, impedance=5000):
 
 def get_accessibility(network, pois_df, distance=5000, num_pois=10):
     """
+    Calculate accesibility metric per node in pandana network
+    
+    Args:
+     network: pandana network
+     pois_df: dataframe of POIS. Fuel stations here. 
+     distance: Limit of accessibility analysis. 
+     num_pois: integer to calculate nth closest POIS
+    
+    Returns:
+     accessibility: dataframe. Size is #nodes rows, num_pois columns 
     """
     
     network.precompute(distance + 1)
@@ -302,9 +347,9 @@ def plot_accessibility(network, accessibility,
                        fig_kwargs={}, plot_kwargs={},
                        cbar_kwargs={}, bmap_kwargs={}):
     """
+    Plotting accessibiity heatmap
     """
 
-    
     title = 'Driving distance (m) to nearest {} around {}'.format(amenity_type,
                                                                   place_name)
  
