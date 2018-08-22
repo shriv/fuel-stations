@@ -11813,11 +11813,19 @@ $( document ).ready(function(){
 </li>
 <li><p>Fuel station characteristics</p>
 <ul>
-<li>Score(s) based on available amenities (e.g. toilets, fuel types, food etc.)</li>
-<li>Score(s) based on uptake and availabile amenities (i.e. higher scores for amenities that are used more)</li>
+<li>Available amenities (e.g. toilets, fuel types, food etc.) - supply</li>
+<li>Uptake of availabile amenities (i.e. higher scores for amenities that are used more) - where supply meets demand</li>
 </ul>
 </li>
 </ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>To make concrete comparisons, we need to further break down these high level aspects into proxy metrics, or quantitative analyses. Metrics provide simplistic, single number comparisons while quantitative analyses generate a more complex picture. For example, we can describe coverage with the following metrics:</p>
 <table>
 <thead><tr>
@@ -11848,6 +11856,14 @@ $( document ).ready(function(){
 </li>
 <li>Using the number of neighbours within a radius to identify the "important" / "centrally" located stations.</li>
 </ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Report-Overview">Report Overview<a class="anchor-link" href="#Report-Overview">&#182;</a></h2><p>The focus of this report is mainly on the <em>Coverage</em> aspect of fuel station value. A natural business question is:</p>
 <blockquote><p><em>Does Z have better coverage than their competitor(s) in Wellington? If so, how?</em></p>
 </blockquote>
@@ -11859,6 +11875,14 @@ $( document ).ready(function(){
 <li>Driving accessibility </li>
 </ul>
 <p>The main competitor used for comparison is BP. The report will also include details of acquiring and cleaning spatial data.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Resources">Resources<a class="anchor-link" href="#Resources">&#182;</a></h2><p>I've used studies from urban data science as inspiration. Some resources I've consulted include:</p>
 <ul>
 <li><a href="https://www.youtube.com/watch?v=eNpdvzORWVc&amp;t=2162s">Talk on Urban Data Science by Dr. Cecilia Mascolo</a></li>
@@ -11875,10 +11899,19 @@ $( document ).ready(function(){
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Introduction-to-Spatial-data">Introduction to Spatial data<a class="anchor-link" href="#Introduction-to-Spatial-data">&#182;</a></h1><p>Spatial data includes geographical information for physical entities in our world. Since we're focusing on man-made entities like fuel stations, the simplest geographical information we require is geolocation. This information can be enriched with attributes that describe local geography - derived from the surrounding environment.</p>
-<h2 id="What-spatial-data-do-we-need?">What spatial data do we need?<a class="anchor-link" href="#What-spatial-data-do-we-need?">&#182;</a></h2><p>We need the following data to calculate the coverage metrics and do the quantitative analyses. The tools are described in more detail in the following section.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="What-spatial-data-do-we-need?">What spatial data do we need?<a class="anchor-link" href="#What-spatial-data-do-we-need?">&#182;</a></h2><p>We need the following data to calculate the coverage metrics and do the quantitative analyses. There are two key types of data: Base and Points of Interest (POIS). The tools used to get and process the data are described in more detail in the following section.</p>
 <table>
 <thead><tr>
 <th>Data</th>
+<th>Type</th>
 <th>Why?</th>
 <th>How?</th>
 </tr>
@@ -11886,18 +11919,58 @@ $( document ).ready(function(){
 <tbody>
 <tr>
 <td>Geo-tagged fuel stations</td>
-<td>Base component of the spatial analyses.</td>
+<td>POIS</td>
+<td>The key spatial entities we're interested in</td>
 <td>Open Street Map via Overpass</td>
 </tr>
 <tr>
 <td>Regional map and street network</td>
+<td>Base</td>
 <td>To connect the fuel stations via real world streets and roads.</td>
 <td>Open Street Map via OSMnx</td>
 </tr>
+<tr>
+<td>Street network broken up into regular points</td>
+<td>Base</td>
+<td>For simpler interactions between geography and fuel stations</td>
+<td>Open Street Map via Panadana</td>
+</tr>
 </tbody>
 </table>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Open Street Maps (OSM) is the underlying data source. <a href="https://en.wikipedia.org/wiki/OpenStreetMap">OSM</a> is an open, collaborative map of the world. Map data can be queried and downloaded locally using the <a href="https://wiki.openstreetmap.org/wiki/Overpass_API">Overpass API</a>. <a href="#Resolving-data-issues">In a later section</a>, I will show how I leveraged the collaborative feature to update / add information on Wellington fuel stations. This editing feature will continue to be an important aspect of any future version of this project, e.g. the available services at the various fuel stations.</p>
 <p>The main advantage of using OSM, other than the altruistic aspect of enriching the available information for others, is that the same framework provides data for <em>all</em> fuel station brands. Comparative analyses become much easier since they don't require data munging from different sources.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Summary-of-spatial-analyses">Summary of spatial analyses<a class="anchor-link" href="#Summary-of-spatial-analyses">&#182;</a></h2><p>As indicated in the previous section, there are two main data types: Base and POIS. At a simplistic level, the analyses outlined in this report are essentially different types of <em>interactions</em> between the base data and POIS. I've focused on pairwise interactions involving:</p>
+<ul>
+<li><em>POIS - POIS</em> interactions via the base layer -- Distances between fuel stations</li>
+<li><em>Base grid - POIS</em> interactions -- Distances between map grid points and fuel stations</li>
+</ul>
+<p>While these interactions seem trivial, they can generate considerable insight into coverage.</p>
+<ul>
+<li><em>POIS - POIS</em> interactions via the base layer<ul>
+<li>Fuel station network analysis to understand connectivity </li>
+</ul>
+</li>
+<li><em>Base grid - POIS</em> interactions<ul>
+<li>Accessibility of fuel stations</li>
+</ul>
+</li>
+</ul>
 
 </div>
 </div>
@@ -12134,17 +12207,41 @@ $( document ).ready(function(){
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Get-Fuel-Stations">Get Fuel Stations<a class="anchor-link" href="#Get-Fuel-Stations">&#182;</a></h2><p>The data downloaded from OSM (via Overpass) includes <em>all</em> nodes and ways tagged as 'fuel'. The brand of the fuel station can be be used to filter for station-specific analysis. In NZ, there are 4 retailer brands: Z, Caltex, BP and Mobil. Since the merger in 2016, Z and Caltex can be regarded as two brands from a single entity. Additional details of brand coverage <a href="https://www.greaterauckland.org.nz/2016/06/09/petrol-station-shakeup/">here</a>. In this preliminary version of the analysis, I've only include the explicit Z branded fuel stations. For a more general analysis of the Z <em>entity</em>, we'd also need to include the Caltex branded fuel stations.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Data-Issues">Data Issues<a class="anchor-link" href="#Data-Issues">&#182;</a></h3><p>We can query the Wellington fuel stations dataset to only get those that are associated with Z.The query returns 13 Z stations within the search region. From a cursory glance at the named Z stations and <a href="https://bit.ly/2KEqu5m">the list from the website</a>, we can see that there is considerable parity. We're missing <em>Z Constable St</em>, but I believe the rest are there. Despite the close parity however, there are some issues with the data:</p>
 <ul>
 <li>Inconsistency between the operator and brand attributes. </li>
 <li>No geolocation for some stations. </li>
 </ul>
 <p><img src="assets/ways_without_geoloc.png" alt=""></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>The key problem with the data is that a significant portion of the stations don't have location coordinates. This problem, unfortunately stems from the two main types of OSM topological entities: ways and nodes. Depending on how a user marks out the location of a fuel station, the entity can be either a way or a node.</p>
 <ul>
 <li>If the station is marked with a single point, the entity is a node with a clear geolocation. </li>
 <li>If the station's perimeter / main building is traced out as a polygon, the entity is a way with no clear geolocation.  </li>
 </ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Resolving-data-issues">Resolving data issues<a class="anchor-link" href="#Resolving-data-issues">&#182;</a></h3><p>Since the underlying problem is a data issue, we can add / edit the data ourselves. You can sign up and verify your email as an OSM editor - quite easy to do. Once I got the permission to edit OSM, I simply went in and added / updated the nodes for the Z fuel stations. Later, I also updated the BP and Mobil stations in the Wellington bounding box used for the analysis. The corrected list of Z stations is now at parity with the Z website.</p>
 
 </div>
@@ -12347,7 +12444,8 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Introduction-to-street-network-analysis">Introduction to street network analysis<a class="anchor-link" href="#Introduction-to-street-network-analysis">&#182;</a></h1>
+<h1 id="Introduction-to-street-network-analysis">Introduction to street network analysis<a class="anchor-link" href="#Introduction-to-street-network-analysis">&#182;</a></h1><p>Having geolocation alone is not very useful beyond plotting points on a map. To know anything useful about the fuel station network, we need the roads connecting the fuel stations. In particular, we'd want to know about the best routes between the fuel stations. With this additional information, we have a trivial network structure: fuel station nodes connected by routes.</p>
+
 </div>
 </div>
 </div>
@@ -12355,7 +12453,6 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Having geolocation alone is not very useful beyond plotting points on a map. To know anything useful about the fuel station network, we need the roads connecting the fuel stations. In particular, we'd want to know about the best routes between the fuel stations. With this additional information, we have a trivial network structure: fuel station nodes connected by routes.</p>
 <p>The package, OSMnx (a portmanteau acronym of Open Street Maps, OSM, and NetworkX, nx), is a great package for doing network anlysis with street data. The underlying representation used by this package is a reduction of streets and roads to edges with intersectionsas the vertices (or, nodes). This representation is also known as a 'Primal Graph'. The position of the nodes and the trajectory of the edges are further described with geolocation coordinates. The technical aspects are presented in <a href="https://arxiv.org/pdf/1611.01890.pdf">this paper</a> by Geoff Boening: the author of OSMnx.</p>
 <p>With the OSMnx package, we can superimpose entities with geolocation on the spatial network. Once we've done this, we can find a path (route) connecting any two nodes. Because of the representation constraints, we don't find the route between the 2 specific entity coordinates (like Google Maps) - instead, we find the path between two nodes closest to the entities.</p>
 <p>The route between the nodes uses the edges (streets and roads) of the spatial network. The route calculation algorithm is an analogue of the <a href="https://en.wikipedia.org/wiki/Shortest_path_problem">typical shortest path analyses done in network science</a>. In a spatial network, the path length can be equated to distance. The base unit of length is metres.</p>
@@ -12468,7 +12565,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Analysis:-Average-distance-between-Z-stations-in-Wellington">Analysis: Average distance between Z stations in Wellington<a class="anchor-link" href="#Analysis:-Average-distance-between-Z-stations-in-Wellington">&#182;</a></h1><p>The first analysis builds on the toy example to calculate the average distance between any two Z stations. A more academic name for this metric is: <em>average inter-station separation</em>.</p>
+<h1 id="Analysis:-Average-distance-between-Z-stations-in-Wellington">Analysis: Average distance between Z stations in Wellington<a class="anchor-link" href="#Analysis:-Average-distance-between-Z-stations-in-Wellington">&#182;</a></h1><p>This first analysis builds on the toy example to calculate the average distance between any two Z stations. A more academic name for this metric is: <em>average inter-station separation</em>.</p>
 <p>The procedure is to first calculate the route and distance between all possible pairs of the 13 Z stations in the region. The following table shows a subset of the results. We see distances from a bunch of Z stations to Z Broadway (in Strathmore).</p>
 
 </div>
@@ -12589,7 +12686,7 @@ $( document ).ready(function(){
 
 
 <div class="output_png output_subarea ">
-<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAX4AAAEXCAYAAACqIS9uAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAADl0RVh0U29mdHdhcmUAbWF0cGxvdGxpYiB2ZXJzaW9uIDIuMi4yLCBodHRwOi8vbWF0cGxvdGxpYi5vcmcvhp/UCwAAIABJREFUeJzt3XuYHFWd//H3hyTcAwEyYgyBAUFW4cfNcBOQLAHlzrqAG0QJqBtBWfUnu8pFEVhU1F1BBA0gGETkIqIbbiLKfZFAAiEQAhIwykgggXALVwPf/eOcNpVK90wn0zOTmfq8nqeeqapzuuqcrppvnz5ddUoRgZmZVcdKfV0AMzPrXQ78ZmYV48BvZlYxDvxmZhXjwG9mVjEO/GZmFePA389Jmijpa31djuUhaYykjr4uh3VN0omSftzX5bDWcOBfgUmaI+k1SS9LekHSXZKOlvT34xYRR0fEfza5rT17tsS9pz98aEiaKWlhaXpD0tu9XI5TJP1sGfIv9d5GxDcj4tOtL531hcF9XQDr0gER8TtJawO7A98HdgSO6ttiWVciYovisqQ1gXuBK/umRGZZRHhaQSdgDrBnad0OwNvAlnl5EnB6nh8OXAu8ACwA7iB9q7skv+Y1YCHw5Zz/F8DTwIvA7cAWhf1MAs4FrgNeBqYA7y6kbwHclPfzDHBiXr8ScDzwOPAcKcit26B+Y4AO4ETg2VzfwwvpqwD/Bfwl72MisBqwRq7L27k+C4F35XXD82u/CiwC1srLpwNndbbdwn73B6bn9/EuYKvSMfl3YEZ+364AVm3yeF4O/BZYqYfOl68Af83H61FgLLA38Cbwt/w+PZDzHgXMynmfAD6T1zd6b08BflbY14HAzPwe3Qq8t5n3iAbnaF//r1Vt6vMCeOrk4NQJ/Hn9X4Bj8vwkFgf+b+UgNiRPuwFqtC3gk8DQHAjPAqYX0iblf8wdSN8MLwUuz2lDgbnAccCqeXnHnPZF4G5gg7zd84DLGtRvDCk4fy/n3R14Bdg8p58FTAbWzfu4BvhW4bUdpe3dDhyc539L+vDZp5D2kSa2ux0wj/StahAwPr93qxTex3tyMFyXFDyPbuJYfh54kvzB1APnyuZ5++/Ky+3kD2pKQTuv2w94N6D8vr8KbNfJe/v3bQDvycdpr3yefRmYDazc1XtEJ+eop96b3MffPz1F+ocq+xswAtgoIv4WEXdE/m+rJyIuioiXI+IN0j/21rlLqebqiLgnIhaRAv82ef3+wNMR8d8R8XrexpSc9hngpIjoKGz3EEmddSt+LSLeiIjbSN8wPipJwL8C/z8iFkTEy8A3gXGdbOc2YPe8r62As/PyqsD2wB1NbPdfgfMiYkpEvBURFwNvADsV9nN2RDwVEQtIHxrb0AlJO+V9HBoRz3aWtxveIn14vk/SkIiYExGPN8ocEddFxOOR3Eb6oNytyX39C3BdRNwUEX8jfXtaDfhAIU+j92iZzlHrGQ78/dNIUmu87LukltdvJT0h6fhGG5A0SNIZkh6X9BKplQbpq3jN04X5V4E18/woUmu6no2AX+Ufo18gtfbeAtZvkP/5iHilsPxnUkuxDVgdmFbY1m/y+kZuI7VWtwMeJHVF7U4K2rNz0O1quxsBx9XScvqoXKaaRu/LUiQNJ3WpnRARd3dS9m6JiNmkb1unAPMkXS7pXY3yS9pH0t2SFuQ67suSx74z7yIdp9q+3yZ92xhZyNPoPWr6HLWe48Dfz0janvQPdmc5Lbe8j4uITYADgC9JGltLLmX/GHAQsCewNqlrANJX/648SeomaJS2T0QMK0yrRsRfG+RfR9IaheUNSd9oniX1NW9R2M7aEVELIPVaiXeRujw+AtwWEQ/n7e1H+lCgie0+CXyjVP7VI+Kyrt6Usnz11c+B/42IHyzr65dVRPw8InYlfXgF8O1aUqlcqwC/JLXU14+IYcD1LD72XbXAn8r7qG1PpA/HRse4WMbOzlHrJQ78/YSktSTtT/qB8GcR8WCdPPtL2jT/I75Eamm/lZOfATYpZB9K6sJ4jtQC/uYyFOda4J2SvihpFUlDJe2Y0yYC35C0US5Tm6SDutjeqZJWlrQbqRvpF7kVeQFwpqR35G2NlPThQn3WK3ZNRcSrwDTgcywO9HeRup9uy3m62u4FwNGSdlSyhqT9JA1dhven5hRSQOzxyyAlbS5pjxzUXyd9uBWPfXvhMuCVSd1C84FFkvYBPlTY3FLvbcmVwH6SxkoaQvqt5w3Se91VOTs7R62XOPCv+K6R9DKpJXoS6YfQRpdybgb8jnQlxh+AH0bErTntW8BXc/fFvwM/JX1d/yvwMOkH2abkfvG9SC22p4HHgH/Myd8n/XD621zuu0k/lDbyNPA8qRV5KelHwEdy2ldI3QJ35+6o35Fa9OQ8lwFP5DrVujVuI/1oeE9heSjpx12a2O5UUj//Oblcs4Ejm3xryr5K+rB9us71/Bsu5zYbWQU4g/SN5mngHaSrpSB1NQE8J+m+fPw+Twrgz5O+/U2ubaiT97aW/ijwceAHeX8HkC47frOJcnZ2jlovqV3xYWZmFeEWv5lZxTjwm5lVjAO/mVnFOPCbmVWMA7/ZCk7SkZLuLCwvlLRJZ68x60y/CvySQtIzxdv/JQ2WNE9Sv7k8SdJ4SdMkvSSpQ9J36g1pIGkzSa8Xh9SVNELSZElP5fejvfSa/5L0mNJQzo9IOqKTcuwn6c58yd7Tki4oXq+ey/VkLuefJZ1Uev35kh6V9LakI0tpE7X0cMQvF9KPlTQ1r5/USRm/nuu5Z2Fdp3WUdICkh/J+75L0vkbbbyWl4YxD0tWl9Vvn9be2Yj8RsWZEPNGKbbVavq/jwny+vCzp/nyfQC19ZUlXKQ0THpLG1NnGdpJuz8fvGUlfKKR9QNI9edszJO3aSVn+I58HL0v6k6T/KKW3S7pF0qv5PCqeY5J0uqS/SnpR0q2StiikT5L0ZukcH9SNt65X9avAn70A7FNY3pd0LXJ/sjrp9vrhpGvcx5JGMyw7lzSMb9HbpCEGDm6w7VdI11WvTRpg7PuSPtAg79qkUSvfBbyXNLDadwvpFwL/EBFrkcZh+Zikfy6kPwB8FrivvOFIzwlYszaRrgv/RSHLU3nfFzUoG5LeDRxCGhCuqTpK2ox8PwAwjDROzOR6H6w9ZD7wAUnrFdaNB/7YS/vva4NJ95zsTjo+XwOuLDVQ7iTdB/B0+cVKQ1z8hjS433rApqRxhJC0Lul+g++Sju13SPe5rNOgLAKOANYhjVJ6rKTiWE+XAffn/ZwEXCWpNnTHoaRBDHcjjYv1B9Iot0XfKZ7jEdF/bkTrqdHfemIi3Ur+VdKdnbV1V5EOWhTWrU0KWnNJNyidDgzKae8GbibdsfosKUgMK7x2Dss57G436vUl4JrSunGkG2xOoTSyYk4fnN+P9i62PRk4rsly/DPwYIO0kaTxb75cJ+1O4MhOtrsGafjf3euknQ5MavC6G0gf7HOoM0ppvToCx5IGEKulrUS6i3Vsg9dOAn6Y97UQ+F/gnaQRPJ8HHgG2bfL9G0MaZnoi8Lm8blBedzJwayHvP7B4WOtHgY8W0tbLdXqJdCPafwJ3lv4PNs3z+5GC10ukgHtKIV97zjueNKLrs6QB9Hr7/3YGedTU0voOYExp3TeBSxpsZ39gZmndH4FPNVmOs4Ef5Pn3kO42HlpIv4PFo4h+BbiykLYF8HrpvDm9yf0emc+rM0kN1ydIDakj8zGbB4zvzWPSH1v8vwY+KGmYpGGkT+T/KeW5mDTc76bAtqTb0Wu3zYt0F2utlTuKFFyLPkpqIWxMGuXxyHoFkbSrCoN51Zkafg0t+SBpbPPadtcCTiPdCr/cJK1GGpVyZld565Ujb+N4SQtJ/6RrkMaeWVYHk1rCt3eVsbDfQ4E3I+L6LvKV6yiWHG+otrxlJ5v5KKlBMZwUDP5A+hYznNSw+F6z5c5+SmppAnw4l+2pQpnXIAX9n5PusD0M+GGhK+Fc0rALI0itzk92sq9X8r6GkT4EjpH0T6U8u5LuTB4LnCzpvc1UQtIPOzm3ZzS5jfVJQbbZc3AnYEHuopsn6Rotvsu5fGxr6zo7trVyiBQrauXYAngi0l3MNQ/k9ZCGRtlU0nuUhqUYT/omUvRZpUHupklq9A28ZkfSB+B6pON+Oem83ZT07eccpQf19I7e/vTvZssh8hv1Y9L4K0eTxlbZlNziJ40C+QZLPljjMOCWBtv8J+D+wvIc4OOF5e8AE3uwTkeRgurwwrrvA1/J86ewnC1+0gfgb2hivHPSEAzPA++pkybSB+ipFFpIhfSuWvy/p9ASLaUt1eInjeT4GLBx4ZjUbfGX60hqSb9Can2vTOpqeJs0Oma9108CLigs/xswq7D8/4AXmjyWY8jj2Ofyb076Bz+c1PC4Naf9C3BH6bXnAV8nfUP4G6mLrZb2TRq0+OuU4SzgzDzfnvNuUEi/BxjXU+dzqSxDSMMznNcgvV6L/4+kVvH2pGc9nE0a5A5S0HyB9P9cC8ZvN9p+abunkgJ77bkKnwDuLuX5Ru1czOfO9/P7twj4U+18zOnb5fIMJn0rfRnYpcG+jwQeK51TQRogr7buOWCb3jguEf2zxQ+LW1RH5PmijUgnxVwtHlb3PFLLCknvUBqy9q9K47T8jKWHo2162N3uyC2zM0ijWT6b121DGjHzzG5u+7ukltBHI59ZneTdidQKOSQiluqLjuR+UpfJqctYjlGk/t7ycerMqaSv+3/qYttL1THSODPjSWPtzCUd24dJQaaRZwrzr9VZXp7jfwmp2+kfgV+V0jYCdtSSQz8fTupiamNxP3nNn2lAaTC5WyTNl/QiqTHUJ+dzqVy1J7+9SXofmvUa8KuIuDciXiedCx+QtHZEPEcaUfZLpGO0N+mDpdNnL0s6lhQr9ov0jAhI3XprlbKuRQrgkD6Etyf1CKyay3GzpNUBIuK+iHguIhZF+lZ6KamrtJHyOUVEtOI8Wy79NfDfQfoavD5LD0/8JKnFPzwWD6u7Vix+/um3SJ+2W0X60fLjNDcU8VIk7aalB98qTg0fbCFpb9K3lQNiyZE2x5Baan+R9DTp94aDJS31A2on2z6V9AP4hyLipS7ybkvqT/5kRPy+i00PpvFwzI0cAdwVy3YVyljg80pXGj1N+ue7UtJXCuVuWMeIuCoitoyI9Uj/wBux9I/kPe0S0g/f10caNbToSdKw0cWhn9eMiGPII2aS6lzT2YBuPycdv1ERsTbp94XlOp/LtPSVWcWpYddN7la5kPT/eXCkh7U0awZLDgtdmxdARNwWEdtHxLqkVvvmLB6Qr15ZPkl6FOjYiCh+QMwENtGSo65uzeKuoK2BKyI9UGhRREwi/Ujc6AqxoEXve2/ol4E/t+4OAA4st2YjYi7pKoD/VhrKeCVJ75a0e84ylPRp/4KkkcASl3gtYznuiCV/1S9Pd9R7naQ9SC2EgyOifNKeTwqu2+RpIumpVB8uvH5V0miMAKvk5VraCaTRFvfKLaSGJG1J6ib5t4i4ppS2kqTPSFpHyQ6k4Y5/X8izct63gCGSVtXioX9rjiB1p5T3PTi/dhAwKL+2duXNWFJLvvYePEXq2ju3mTpKer/Sg2baSN/2ronFI372ivxtZXfShQdl1wLvkfQJSUPytL2k90a6MuRq4BRJqytdijq+k10NBRZExOv5GH2shXU4upNze4tOXvoj0u9nB0TEa+VEpUs+a+fsyvnY14LmT4CPSNom961/jdTN9UJ+7bb5/VqL9DyBjoi4sV4hJB1O6ibbq9zwyN9spwNfz/v/COn3vF/mLPcCh0paP/8vfILUkzA7b/sQSWvmtA+RGpCT6S96q0+pFRMN+jYp9PHn5bVJJ18H6cqc+8n9mqQfb6aRgv900g+oHYXXzqHQn0yDPvZu1uMWUqtuYWG6oUHepfaf34clplLaG6Vtn1hIXwjslud/wpIP1V5IvmqC1Cj4Demqk4WkvtcTKfxeQHrIdrksYwrpO5P62+v9LnBKndee0uA9KB+Trup4J+kr+wJS4F+jk2MxicLVGRT64gvn1qLC8g3FfZW2NYbSs2o72e7mpA/0+aT+3ZvJfbyk7p5rae6qnkNIXUEv59ecw+Jn47bnvINLx+zTPfg/ulHe5+ul43N46XiWj317If0Y0tV4z5Muxx1VSLuM9D9du+LuHYW03YCFheU/sfgh87VpYiG9Pb8fr5GurCqeY6uSGhpz83G4D9i7kH5HLsNLpN8OGv5uQurjLx6/JeJVXtcB7NpTx6U8eVhmM7OK6ZddPWZmtvwc+M3MKsaB38ysYhz4zcwqprcGrlrK8OHDo729va92b2bWL02bNu3ZiGjrOmdjfRb429vbmTp1al/t3sysX5LU8E7uZrmrx8ysYhz4zcwqxoHfzKxiHPjNzCrGgd/MrGIc+M3MKqbpwJ+Hub1f0rV10laRdIWk2ZKmaMkHK5uZ2QpkWVr8XwBmNUj7FPB8RGxKenLUt7tbMDMz6xlNBX5JG5Ae5PzjBlkOIj37FNLDqccWHqxgZmYrkGbv3D0L+DLpaT/1jCQ/IzQiFuVnf64HPFvMJGkCMAFgww07e5qcrUjaj7+uT/Y754z9+mS/ZgNdly1+SfsD8yJiWmfZ6qxb6gkvEXF+RIyOiNFtbd0aasLMzJZTM109uwAHSpoDXA7sIelnpTwd5IdD5+emrk167J2Zma1gugz8EXFCRGwQEe3AOODmiPh4KdtkFj8Q+pCcx890NDNbAS336JySTgOmRsRk4ELgEkmzSS39cS0qn5mZtdgyBf6IuJX0VHoi4uTC+teBQ1tZMDMz6xm+c9fMrGIc+M3MKsaB38ysYhz4zcwqxoHfzKxiHPjNzCrGgd/MrGIc+M3MKsaB38ysYhz4zcwqxoHfzKxiHPjNzCrGgd/MrGIc+M3MKsaB38ysYhz4zcwqppmHra8q6R5JD0iaKenUOnmOlDRf0vQ8fbpnimtmZt3VzBO43gD2iIiFkoYAd0q6ISLuLuW7IiKObX0RzcyslboM/Pmh6Qvz4pA8+UHqZmb9VFN9/JIGSZoOzANuiogpdbIdLGmGpKskjWppKc3MrGWaCvwR8VZEbANsAOwgactSlmuA9ojYCvgdcHG97UiaIGmqpKnz58/vTrnNzGw5LdNVPRHxAnArsHdp/XMR8UZevAB4f4PXnx8RoyNidFtb23IU18zMuquZq3raJA3L86sBewKPlPKMKCweCMxqZSHNzKx1mrmqZwRwsaRBpA+KKyPiWkmnAVMjYjLweUkHAouABcCRPVVgMzPrnmau6pkBbFtn/cmF+ROAE1pbNDMz6wm+c9fMrGIc+M3MKsaB38ysYhz4zcwqxoHfzKxiHPjNzCrGgd/MrGIc+M3MKsaB38ysYhz4zcwqxoHfzKxiHPjNzCrGgd/MrGIc+M3MKsaB38ysYhz4zcwqxoHfzKximnnm7qqS7pH0gKSZkk6tk2cVSVdImi1piqT2niismZl1XzMt/jeAPSJia2AbYG9JO5XyfAp4PiI2Bc4Evt3aYpqZWat0GfgjWZgXh+QpStkOAi7O81cBYyWpZaU0M7OWaaqPX9IgSdOBecBNETGllGUk8CRARCwCXgTWq7OdCZKmSpo6f/787pXczMyWS1OBPyLeiohtgA2AHSRtWcpSr3Vf/lZARJwfEaMjYnRbW9uyl9bMzLptma7qiYgXgFuBvUtJHcAoAEmDgbWBBS0on5mZtVgzV/W0SRqW51cD9gQeKWWbDIzP84cAN0fEUi1+MzPre4ObyDMCuFjSINIHxZURca2k04CpETEZuBC4RNJsUkt/XI+V2MzMuqXLwB8RM4Bt66w/uTD/OnBoa4tmZmY9wXfumplVjAO/mVnFOPCbmVWMA7+ZWcU48JuZVYwDv5lZxTjwm5lVjAO/mVnFOPCbmVWMA7+ZWcU48JuZVYwDv5lZxTjwm5lVjAO/mVnFOPCbmVWMA7+ZWcU48JuZVUwzz9wdJekWSbMkzZT0hTp5xkh6UdL0PJ1cb1tmZtb3mnnm7iLguIi4T9JQYJqkmyLi4VK+OyJi/9YX0czMWqnLFn9EzI2I+/L8y8AsYGRPF8zMzHrGMvXxS2onPXh9Sp3knSU9IOkGSVs0eP0ESVMlTZ0/f/4yF9bMzLqv6cAvaU3gl8AXI+KlUvJ9wEYRsTXwA+DX9bYREedHxOiIGN3W1ra8ZTYzs25oKvBLGkIK+pdGxNXl9Ih4KSIW5vnrgSGShre0pGZm1hLNXNUj4EJgVkR8r0Ged+Z8SNohb/e5VhbUzMxao5mrenYBPgE8KGl6XncisCFAREwEDgGOkbQIeA0YFxHRA+U1M7Nu6jLwR8SdgLrIcw5wTqsKZWZmPcd37pqZVYwDv5lZxTjwm5lVjAO/mVnFOPCbmVWMA7+ZWcU48JuZVYwDv5lZxTjwm5lVjAO/mVnFOPCbmVWMA7+ZWcU48JuZVYwDv5lZxTjwm5lVjAO/mVnFOPCbmVVMM8/cHSXpFkmzJM2U9IU6eSTpbEmzJc2QtF3PFNfMzLqrmWfuLgKOi4j7JA0Fpkm6KSIeLuTZB9gsTzsCP8p/zcxsBdNliz8i5kbEfXn+ZWAWMLKU7SDgp5HcDQyTNKLlpTUzs25rpsX/d5LagW2BKaWkkcCTheWOvG5u6fUTgAkAG2644bKVtKD9+OuW+7VmZtC3cWTOGfv12b5hGX7clbQm8EvgixHxUjm5zktiqRUR50fE6IgY3dbWtmwlNTOzlmgq8EsaQgr6l0bE1XWydACjCssbAE91v3hmZtZqzVzVI+BCYFZEfK9BtsnAEfnqnp2AFyNiboO8ZmbWh5rp498F+ATwoKTped2JwIYAETERuB7YF5gNvAoc1fqimplZK3QZ+CPiTur34RfzBPC5VhXKzMx6ju/cNTOrGAd+M7OKceA3M6sYB34zs4px4DczqxgHfjOzinHgNzOrGAd+M7OKceA3M6sYB34zs4px4DczqxgHfjOzinHgNzOrGAd+M7OKceA3M6sYB34zs4px4Dczq5hmnrl7kaR5kh5qkD5G0ouSpufp5NYX08zMWqWZZ+5OAs4BftpJnjsiYv+WlMjMzHpUly3+iLgdWNALZTEzs17Qqj7+nSU9IOkGSVs0yiRpgqSpkqbOnz+/Rbs2M7Nl0YrAfx+wUURsDfwA+HWjjBFxfkSMjojRbW1tLdi1mZktq24H/oh4KSIW5vnrgSGShne7ZGZm1iO6HfglvVOS8vwOeZvPdXe7ZmbWM7q8qkfSZcAYYLikDuDrwBCAiJgIHAIcI2kR8BowLiKix0psZmbd0mXgj4jDukg/h3S5p5mZ9QO+c9fMrGIc+M3MKsaB38ysYhz4zcwqxoHfzKxiHPjNzCrGgd/MrGIc+M3MKsaB38ysYhz4zcwqxoHfzKxiHPjNzCrGgd/MrGIc+M3MKsaB38ysYhz4zcwqxoHfzKxiugz8ki6SNE/SQw3SJelsSbMlzZC0XeuLaWZmrdJMi38SsHcn6fsAm+VpAvCj7hfLzMx6SpeBPyJuBxZ0kuUg4KeR3A0MkzSiVQU0M7PW6vJh600YCTxZWO7I6+aWM0qaQPpWwIYbbtiCXdtA1n78dX227zln7Ncn++2rOvdVfa1vtOLHXdVZF/UyRsT5ETE6Ika3tbW1YNdmZrasWhH4O4BRheUNgKdasF0zM+sBrQj8k4Ej8tU9OwEvRsRS3TxmZrZi6LKPX9JlwBhguKQO4OvAEICImAhcD+wLzAZeBY7qqcKamVn3dRn4I+KwLtID+FzLSmRmZj3Kd+6amVWMA7+ZWcU48JuZVYwDv5lZxTjwm5lVjAO/mVnFOPCbmVWMA7+ZWcU48JuZVYwDv5lZxTjwm5lVjAO/mVnFOPCbmVWMA7+ZWcU48JuZVYwDv5lZxTjwm5lVTFOBX9Lekh6VNFvS8XXSj5Q0X9L0PH269UU1M7NWaOaZu4OAc4G9gA7gXkmTI+LhUtYrIuLYHiijmZm1UDMt/h2A2RHxRES8CVwOHNSzxTIzs57STOAfCTxZWO7I68oOljRD0lWSRtXbkKQJkqZKmjp//vzlKK6ZmXVXM4FfddZFafkaoD0itgJ+B1xcb0MRcX5EjI6I0W1tbctWUjMza4lmAn8HUGzBbwA8VcwQEc9FxBt58QLg/a0pnpmZtVozgf9eYDNJG0taGRgHTC5mkDSisHggMKt1RTQzs1bq8qqeiFgk6VjgRmAQcFFEzJR0GjA1IiYDn5d0ILAIWAAc2YNlNjOzbugy8ANExPXA9aV1JxfmTwBOaG3RzMysJ/jOXTOzinHgNzOrGAd+M7OKceA3M6sYB34zs4px4DczqxgHfjOzinHgNzOrGAd+M7OKceA3M6sYB34zs4px4DczqxgHfjOzinHgNzOrGAd+M7OKceA3M6sYB34zs4ppKvBL2lvSo5JmSzq+Tvoqkq7I6VMktbe6oGZm1hpdBn5Jg4BzgX2A9wGHSXpfKdungOcjYlPgTODbrS6omZm1RjMt/h2A2RHxRES8CVwOHFTKcxBwcZ6/ChgrSa0rppmZtUozD1sfCTxZWO4AdmyUJyIWSXoRWA94tphJ0gRgQl5cKOnR5Sn0CmI4pfoNQJWtowbWd9Yuj+MAqG+/OleX8/2u1XGj7u6/mcBfr+Uey5GHiDgfOL+Jfa7wJE2NiNF9XY6e5DoODK7jwNDKOjbT1dMBjCosbwA81SiPpMHA2sCCVhTQzMxaq5nAfy+wmaSNJa0MjAMml/JMBsbn+UOAmyNiqRa/mZn1vS67enKf/bHAjcAg4KKImCnpNGBqREwGLgQukTSb1NIf15OFXkEMiC6rLriOA4PrODC0rI5yw9zMrFp8566ZWcU48JuZVYwDfybpIknzJD1UWLeupJskPZb/rpPXS9LZeYiKGZK2K7xmfM7/mKTx9fbVVySNknSLpFmSZkr6Ql4/YOopaVVJ90h6INfx1Lx+4zycyGN5eJGV8/qGw41IOiGvf1TSh/umRo1JGiTpfknX5uUBVUdJcyQ9KGm6pKl53YA5VwEkDZN0laRH8v/lzr1Sx4jwlH7n+CCwHfBQYd13gOPz/PHAt/P8vsCV8QCFAAADUklEQVQNpPsXdgKm5PXrAk/kv+vk+XX6um6F+owAtsvzQ4E/kobhGDD1zGVdM88PAabksl8JjMvrJwLH5PnPAhPz/Djgijz/PuABYBVgY+BxYFBf169U1y8BPweuzcsDqo7AHGB4ad2AOVdz+S4GPp3nVwaG9UYd+7ziK9IEtLNk4H8UGJHnRwCP5vnzgMPK+YDDgPMK65fIt6JNwP8Aew3UegKrA/eR7jR/Fhic1+8M3JjnbwR2zvODcz4BJwAnFLb193wrwkS6n+b3wB7AtbnMA62Oc1g68A+YcxVYC/gT+SKb3qyju3o6t35EzAXIf9+R19cbxmJkJ+tXOPnr/rakFvGAqmfuApkOzANuIrVkX4iIRTlLsbxLDDcC1IYbWaHrCJwFfBl4Oy+vx8CrYwC/lTRNabgXGFjn6ibAfOAnucvux5LWoBfq6MC/fBoNUdHU0BV9TdKawC+BL0bES51lrbNuha9nRLwVEduQWsU7AO+tly3/7Xd1lLQ/MC8iphVX18nab+uY7RIR25FGBv6cpA92krc/1nEwqXv5RxGxLfAKqWunkZbV0YG/c89IGgGQ/87L6xsNY9HM8BZ9StIQUtC/NCKuzqsHXD0BIuIF4FZSf+gwpeFEYMnyNhpuZEWu4y7AgZLmkEbL3YP0DWAg1ZGIeCr/nQf8ivQhPpDO1Q6gIyKm5OWrSB8EPV5HB/7OFYeiGE/qE6+tPyL/yr4T8GL+SnYj8CFJ6+Rf4j+U160QJIl0l/WsiPheIWnA1FNSm6RheX41YE9gFnALaTgRWLqO9YYbmQyMy1fEbAxsBtzTO7XoXEScEBEbREQ76cfamyPicAZQHSWtIWlobZ50jj3EADpXI+Jp4ElJm+dVY4GH6Y069vUPHCvKBFwGzAX+RvoE/RSpH/T3wGP577o5r0gPp3kceBAYXdjOJ4HZeTqqr+tVquOupK+AM4Dpedp3INUT2Aq4P9fxIeDkvH4TUlCbDfwCWCWvXzUvz87pmxS2dVKu+6PAPn1dtwb1HcPiq3oGTB1zXR7I00zgpLx+wJyruWzbAFPz+fpr0lU5PV5HD9lgZlYx7uoxM6sYB34zs4px4DczqxgHfjOzinHgNzOrGAd+M7OKceA3M6uY/wPYK7BBVEwXjAAAAABJRU5ErkJggg==
+<img src="data:image/png;base64,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
 "
 >
 </div>
@@ -12605,6 +12702,14 @@ $( document ).ready(function(){
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Analysis:-Number-of-neighbours-for-Z-stations">Analysis: Number of neighbours for Z stations<a class="anchor-link" href="#Analysis:-Number-of-neighbours-for-Z-stations">&#182;</a></h1><p>The same 13x13 table of distances can be used to analyse the number of neighbours for a Z station within a particular radius. For this analysis, I've recast the data into a network structure. The recasting is useful since we can use some standard network analysis tools available in the networkx package.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>The steps of the recasting are:</p>
 <ul>
 <li>Filter the 13x13 distances to only include separations less than or equal to 10km. This step would remove the connection between Z Broadway and Z Petone for example. </li>
@@ -12615,7 +12720,15 @@ $( document ).ready(function(){
 </ul>
 </li>
 </ul>
-<p>We can now visualise this network structure. Some interesting insights include:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can visualise the network structure of the simpler, recast data. Some interesting insights include:</p>
 <ul>
 <li>2 clusters are apparent in the Z station network for Wellington: Wellington City and Lower Hutt. </li>
 <li>The Wellington City cluster is very tightly connected for the central and southern suburbs. </li>
@@ -12655,7 +12768,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The explicit connectivity of each Z station is given by a metric called 'degree' in network analysis. The degree distribution is a useful analysis for understanding characteristics of structure in larger &amp;/ complex networks. Here, it's simply useful to use the node degree to understand the highly connected / central Z stations. As expected, these stations are the ones in the city centre: Z Harboour City, Z Vivian St, Z Taranaki Street.</p>
+<p>The explicit connectivity of each Z station is given by a metric called 'degree' in network analysis. The degree distribution is useful for understanding characteristics of structure in larger &amp;/ complex networks. Here, it's simply useful to use the node degree to understand the highly connected / central Z stations. As expected, these stations are the ones in the city centre: Z Harboour City, Z Vivian St, Z Taranaki Street.</p>
 
 </div>
 </div>
@@ -12782,7 +12895,7 @@ $( document ).ready(function(){
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The average degree for the Wellington City Z stations is much higher than Lower Hutt. The typical Z station in Wellington City is connected to 2 more Z stations than a Z station in Lower Hutt.</p>
+<p>The average degree for the Wellington City Z stations is much higher than Lower Hutt. The typical Z station in Wellington City is connected to 2 more Z stations than a typicsl Z station in Lower Hutt.</p>
 
 </div>
 </div>
@@ -12815,9 +12928,10 @@ Z stations in Lower Hutt have an average of 4.67 neighbours
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><a id='Competitor-Analysis'></a></p>
 <h1 id="Competitor-Analysis:-Number-of-neighbours-for-BP-stations">Competitor Analysis: Number of neighbours for BP stations<a class="anchor-link" href="#Competitor-Analysis:-Number-of-neighbours-for-BP-stations">&#182;</a></h1><p>The same network analysis can be done for a competitor. I chose BP, since it <em>seems</em> to have a similar coverage to Z in the Wellington region. The network for BP shares some similar characteristics to the Z network but also has some obvious differences.</p>
 <ul>
-<li>Wellington City and Lower Hutt clusters persist. </li>
+<li>Wellington City and Lower Hutt clusters persist.</li>
 <li>The northern suburbs are a little better connected. </li>
 <li>The Wellington cluster is not as well connected as the Z station network. </li>
 <li>The Lower Hutt cluster for BP is much better connected than Z. BP also has 2 more stations in Lower Hutt compared to Z. </li>
@@ -12860,7 +12974,7 @@ Z stations in Lower Hutt have an average of 4.67 neighbours
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Because the Z station network was a loosely connected with two strongly connected components, we could calculate the average degree per component, with little loss of accuracy. The BP network doesn't have the same structure - BP stations are reasonably well connected throughout the Wellington region network.</p>
+<p>Because the Z station network was a loosely connected network with two strongly connected clusters, we could calculate the average degree per cluster, with little loss of accuracy. The BP network doesn't have the same structure - BP stations are reasonably well connected throughout the Wellington region network.</p>
 
 </div>
 </div>
@@ -13297,21 +13411,29 @@ Of the 19 stations next to a competitor, 10 are from Z
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Accessibility-analysis">Accessibility analysis<a class="anchor-link" href="#Accessibility-analysis">&#182;</a></h2><p>The above analyses only consider the fuel stations and quantify implicit interactions between them. But we get the real benefit of spatial analyses when we consider interactions between the fuel stations and other entities - from humans to other businesses. One analysis of interaction is accessibility.</p>
+<h1 id="Accessibility-analysis">Accessibility analysis<a class="anchor-link" href="#Accessibility-analysis">&#182;</a></h1><p>The above analyses only consider the fuel stations and quantify implicit interactions (via road distance) between them. But we get the real benefit of spatial analyses when we consider interactions between the fuel stations and other entities - from humans to other businesses. One type of interaction with general entities is accessibility. Simple accessibility analyses convert the base geography of the region into a point grid, and compute distances between every point and the POIS.</p>
 <p>Accessibility is a core analysis in urban planning. Some examples <a href="https://www.slideshare.net/DimkaG/transitaccess-27460698">here</a>. There are even tools which score regions with scores based on accessibility
 e.g. <a href="https://www.walkscore.com/">WalkScore</a>.</p>
-<h3 id="Calculating-accessibility">Calculating accessibility<a class="anchor-link" href="#Calculating-accessibility">&#182;</a></h3><p>Here, we consider accessibility as the driving distance in meters from each network node to the nearest POI (point of interest): a fuel station. It's possible to have many POIS. To do a visual acessibility analysis we need to:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Calculating-accessibility">Calculating accessibility<a class="anchor-link" href="#Calculating-accessibility">&#182;</a></h2><p>Here, we consider accessibility as the driving distance in meters from each grid point (also referred to as nodes) to the nearest POIS: a fuel station. To do a visual acessibility analysis we need to:</p>
 <ul>
-<li>Break up the map into nodes (I) </li>
-<li>Calculate the distance from each node in the network to the nth nearest POIS (II) </li>
+<li>Break up the map into grid of points (I) </li>
+<li>Calculate the distance from each point to the nth nearest POIS (II) </li>
 <li>Visualise distance as a heatmap (III)</li>
 </ul>
 <p>All the above steps are carried out by the Python package Pandana. Of the above steps, I has a few sub-steps. These are:</p>
 <ul>
 <li>Download OSM data within the specified bounding box </li>
-<li>Convert map to nodes. Remember, this is easy since all OSM streets and roads are <em>ways</em> which are simply a collection of nodes </li>
-<li>Store node data in a convenient data structure: a Pandas dataframe </li>
-<li>Filter out poorly connected nodes</li>
+<li>Convert map to point grid. Remember, this is easy since all OSM streets and roads are <em>ways</em> which are simply a collection of nodes / points. </li>
+<li>Store points data in a convenient data structure: a Pandas dataframe </li>
+<li>Filter out poorly connected points</li>
 </ul>
 
 </div>
@@ -13327,7 +13449,7 @@ e.g. <a href="https://www.walkscore.com/">WalkScore</a>.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Accessibility-to-Z-vs.-BP">Accessibility to Z vs. BP<a class="anchor-link" href="#Accessibility-to-Z-vs.-BP">&#182;</a></h3><p>The accessibility heatmaps indicate that both Z and BP have reasonable coverage in the Wellington region. Most of the suburbs seem to be within reasonable (5km) driving distance of a Z / BP fuel station. The heatmaps also highlight some fine-grained details:</p>
+<h2 id="Accessibility-to-Z-vs.-BP">Accessibility to Z vs. BP<a class="anchor-link" href="#Accessibility-to-Z-vs.-BP">&#182;</a></h2><p>The accessibility heatmaps indicate that both Z and BP have reasonable coverage in the Wellington region. Most of the suburbs seem to be within reasonable (5km) driving distance of a Z / BP fuel station. The heatmaps also highlight some fine-grained details:</p>
 <ul>
 <li>Z has no coverage in Wanuiomata while BP does.</li>
 <li>Z doesn't cover Karori.</li>
@@ -13397,7 +13519,7 @@ e.g. <a href="https://www.walkscore.com/">WalkScore</a>.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The points made in the above section can be seen more clearly with differences between Z and BP accessibility. Since the accessibility analysis uses the same nodes for both stations, we can calculate a differential value of BP accessibility from Z acessibility i.e. Z accessibibiity - BP accessibility. In other words,</p>
+<p>The points made in the above section can be seen more clearly with differences between Z and BP accessibility. Since the accessibility analysis uses the same nodes for both stations, we can calculate a differential value of BP accessibility from Z acessibility: Z accessibibiity - BP accessibility. In other words,</p>
 <blockquote><p>For any given node, what is the differential distance to a BP station compared to a Z station?</p>
 </blockquote>
 <p>This analysis shows the interplay between Z and BP accessibility within the Wellington region, with accessibility now spanning both positive and negative values. The heatmap colours map positive values to nodes where Z stations are further away than BP; negative colours to nodes where Z stations are closer than BP.</p>
@@ -13453,6 +13575,9 @@ e.g. <a href="https://www.walkscore.com/">WalkScore</a>.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
 <div class="output_wrapper">
 <div class="output">
 
@@ -13466,7 +13591,7 @@ e.g. <a href="https://www.walkscore.com/">WalkScore</a>.</p>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;seaborn.axisgrid.FacetGrid at 0x7f320abe2dd0&gt;</pre>
+<pre>&lt;seaborn.axisgrid.FacetGrid at 0x7f6dcaee2990&gt;</pre>
 </div>
 
 </div>
@@ -13495,7 +13620,7 @@ e.g. <a href="https://www.walkscore.com/">WalkScore</a>.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We can explicitly only plot the nodes that fall within the accessible areas. Z accessibility is 200 m better than BP for both mean and median averages. The previous plot also showed some indication of a bimodal distribution in accessibility for BP. Increasing the number of bins shows that there is <em>likely</em> a bimodal accessibility distribution for BP. But, we'd need to think a little deeper as why this might be the case before .</p>
+<p>We can explicitly only plot the nodes that fall within the accessible areas. Z accessibility is 200 m better than BP for both mean and median averages. The previous plot also showed some indication of a bimodal distribution in accessibility for BP. Increasing the number of bins shows that there is <em>likely</em> a bimodal accessibility distribution for BP (similar result in an <a href="#Competitor-Analysis">earlier section</a>). But, we'd need to think a little deeper as why this might be the case before .</p>
 
 </div>
 </div>
@@ -13533,6 +13658,14 @@ e.g. <a href="https://www.walkscore.com/">WalkScore</a>.</p>
 <h1 id="Conclusions">Conclusions<a class="anchor-link" href="#Conclusions">&#182;</a></h1><p>The key business question to be answered in this report was:</p>
 <blockquote><p><em>Does Z have better coverage than their competitor(s) in Wellington? If so, how?</em></p>
 </blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Through a variety of different spatial analyses, we can quantify some aspects of this question:</p>
 <ul>
 <li>Z stations are closer together on average, compared to BP.</li>
@@ -13545,6 +13678,14 @@ e.g. <a href="https://www.walkscore.com/">WalkScore</a>.</p>
 </ul>
 </li>
 </ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Given the above findings, we can tentatively answer the business question</p>
 <blockquote><p>Z stations have better coverage in Wellington compared to BP.</p>
 </blockquote>
@@ -13559,9 +13700,18 @@ e.g. <a href="https://www.walkscore.com/">WalkScore</a>.</p>
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Future-Work">Future Work<a class="anchor-link" href="#Future-Work">&#182;</a></h1><p>Some immediate follow up work can include:</p>
 <ul>
-<li>A more complete analysis since Z is not the only brand of the <em>Z entity</em>. We need to include Caltex Stations as well. </li>
+<li>A more complete analysis. Since Z is not the only brand of the <em>Z entity</em>, we need to include Caltex Stations as well. </li>
 <li>Combining population density with accessibility. Currently, accessibility analysis considers every node to contain the same number of people. This is clearly untrue. A better understanding of the weaknesses in Z's coverage would need to know which high population density nodes have poor access to Z stations.  </li>
+<li>Better visualisation of the Pandana heatmaps.</li>
 </ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Useful but not as neatly specified work includes:</p>
 <ul>
 <li>Understanding the distribution of available services.</li>
