@@ -210,10 +210,10 @@ def plot_shortest_paths(pairwise_df, station_brand='Z'):
                         .groupby('from')['distance']
                         .agg('min')
                         .sort_values())
-    title_string = 'Distance between {} \
-    stations \n Mean = {} m. Median  = {} m'.format(station_brand,
-                                                    closest_stations.mean(), 
-                                                    closest_stations.median())
+    title_string = 'Distance between {} stations\
+    \n Mean = {} m. Median  = {} m'.format(station_brand,
+                                        closest_stations.mean(), 
+                                        closest_stations.median())
     # Plot the distances
     plt.hist(closest_stations);
     plt.title(title_string);
