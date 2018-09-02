@@ -367,4 +367,6 @@ def plot_accessibility(network, accessibility,
                                  bmap_kwargs=bmap_kwargs, 
                                  cbar_kwargs=cbar_kwargs)
     ax.set_title(title,  fontsize=15)
+    ax.set_facecolor('k')
+    
     return
