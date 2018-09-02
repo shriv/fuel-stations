@@ -38,8 +38,9 @@ $( document ).ready(function(){
 {% endblock output_area_prompt %}
 
 {% block output_group -%}
-{%- if id == 'tech' -%}
+{% if 'non-tech' in cell['metadata'].get('tags', []) %}
 {%- else -%}
     {{ super() }}
 {%- endif -%}
 {% endblock output_group %}
+
