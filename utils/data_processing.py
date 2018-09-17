@@ -75,6 +75,7 @@ def get_osm_data(compactOverpassQLstring, osm_bbox):
                 del dct['tags']
             else:
                 pass
-        osmdf = pd.DataFrame(osmdata)
+        osm_df = pd.DataFrame(osmdata)
+        osm_df.to_csv(osm_filename)
         
-    return osmdf
+    return osm_df
